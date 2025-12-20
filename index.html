@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Love ❤️🎄</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #7b0000, #1a1a1a);
+      color: white;
+      overflow: hidden;
+    }
+
+    .center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+
+    .box {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 35px;
+      border-radius: 18px;
+      text-align: center;
+      max-width: 560px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+      animation: fadeIn 1.5s ease;
+    }
+
+    h1 {
+      color: #ffdede;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+
+    textarea {
+      height: 150px;
+      resize: none;
+      font-family: 'Times New Roman', serif;
+      font-size: 18px;
+      line-height: 1.7;
+      background: #fffaf0;
+      color: #5a1a1a;
+    }
+
+    button {
+      background: #c62828;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #e53935;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* 💌 LETTER PAGE */
+    .letter-page {
+  background: #fffaf0;
+  color: #5a1a1a;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 90%;
+  font-size: 20px;
+  line-height: 1.9;
+  font-family: 'Times New Roman', serif;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  animation: letterReveal 1.5s ease;
+
+  /* 🔑 FIXES */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+
+    @keyframes letterReveal {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .back-btn {
+      margin-top: 25px;
+      background: transparent;
+      color: #7b0000;
+      border: 2px solid #7b0000;
+    }
+
+    .back-btn:hover {
+      background: #7b0000;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ❄️ Snow */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 14px;
+      user-select: none;
+      z-index: 1;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh); }
+    }
+  </style>
+</head>
+<body>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🔐 LOGIN PAGE -->
+<div class="center" id="loginPage">
+  <div class="box">
+    <h1>For My Love Only 🎁❤️</h1>
+    <input type="password" id="password" placeholder="Enter our secret password">
+    <button onclick="checkPassword()">Enter</button>
+  </div>
+</div>
+
+<!-- ❤️ MAIN PAGE -->
+<div class="center hidden" id="mainPage">
+  <div class="box">
+    <h1>Merry Christmas Baby 🎄❤️</h1>
+    <p>A letter written with all my love.</p>
+
+    <!-- ✍️ WRITE (YOU ONLY) -->
+    <textarea id="loveText" placeholder="Write your love letter here..."></textarea>
+    <button onclick="saveText()">Save My Letter ❤️</button>
+
+    <!-- 💌 VIEW -->
+    <button onclick="openLetterPage()">💌 View Paragraph</button>
+
+    <button onclick="playMusic()">🎶 Play Our Song</button>
+  </div>
+</div>
+
+<!-- 💖 LETTER PAGE -->
+<div class="center hidden" id="letterPage">
+  <div class="letter-page">
+    <div id="letterContent"></div>
+
+    <button class="back-btn" onclick="goBack()">← Back</button>
+  </div>
+</div>
+
+<script>
+  const SECRET_PASSWORD = "mariaforever"; // CHANGE THIS
+  const music = document.getElementById("music");
+
+  function checkPassword() {
+    if (password.value === SECRET_PASSWORD) {
+      loginPage.classList.add("hidden");
+      mainPage.classList.remove("hidden");
+
+      const saved = localStorage.getItem("loveMessage");
+      if (saved) {
+        letterContent.innerText = saved;
+      }
+    } else {
+      alert("Wrong password 💔");
+    }
+  }
+
+  function saveText() {
+    const text = loveText.value;
+    localStorage.setItem("loveMessage", text);
+    letterContent.innerText = text;
+    loveText.value = "";
+  }
+
+  function openLetterPage() {
+    if (!letterContent.innerText.trim()) {
+      alert("No letter written yet ❤️");
+      return;
+    }
+    mainPage.classList.add("hidden");
+    letterPage.classList.remove("hidden");
+  }
+
+  function goBack() {
+    letterPage.classList.add("hidden");
+    mainPage.classList.remove("hidden");
+  }
+
+  function playMusic() {
+    music.volume = 0.5;
+    music.play();
+  }
+
+  function createSnowflake() {
+    const s = document.createElement("div");
+    s.className = "snowflake";
+    s.innerHTML = "❄";
+    s.style.left = Math.random() * window.innerWidth + "px";
+    s.style.animationDuration = (3 + Math.random() * 5) + "s";
+    s.style.fontSize = (10 + Math.random() * 20) + "px";
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 8000);
+  }
+
+  setInterval(createSnowflake, 200);
+</script>
+
+</body>
+</html>
